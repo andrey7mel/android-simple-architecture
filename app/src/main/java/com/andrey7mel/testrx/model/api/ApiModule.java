@@ -14,7 +14,7 @@ import retrofit.RxJavaCallAdapterFactory;
 public class ApiModule {
 
     private static final boolean ENABLE_AUTH = false;
-    private static final String AUTH_64 = "***"; //your code here
+    private static final String AUTH_64 = "***";
 
 
     public static ApiInterface getApiInterface() {
@@ -40,7 +40,9 @@ public class ApiModule {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
         if (ENABLE_AUTH) builder.client(httpClient);
 
+
         ApiInterface apiInterface = builder.build().create(ApiInterface.class);
         return apiInterface;
     }
+
 }

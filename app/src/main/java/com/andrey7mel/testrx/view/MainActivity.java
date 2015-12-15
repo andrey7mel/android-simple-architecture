@@ -1,45 +1,26 @@
 package com.andrey7mel.testrx.view;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.andrey7mel.testrx.R;
-import com.andrey7mel.testrx.model.data.Repo;
-import com.andrey7mel.testrx.presenter.IPresenter;
-import com.andrey7mel.testrx.presenter.RepoListPresenter;
-import com.andrey7mel.testrx.presenter.filters.RepoListFilter;
-import com.andrey7mel.testrx.view.adapters.RecyclerViewAdapter;
-
-import java.util.List;
+import com.andrey7mel.testrx.view.events.ReplaceFragmentEvent;
+import com.andrey7mel.testrx.view.fragments.RepoListFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
-public class MainActivity extends AppCompatActivity implements IView {
+public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.recyclerView)
-    RecyclerView recyclerView;
-
+    private static String TAG = "TAG";
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
-    @Bind(R.id.editText)
-    EditText editText;
-
-    @Bind(R.id.button)
-    Button searchButton;
-
-    private RecyclerViewAdapter adapter;
-
-    private IPresenter presenter;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,53 +28,28 @@ public class MainActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        EventBus.getDefault().register(this);
+        fragmentManager = getSupportFragmentManager();
 
-        presenter = new RepoListPresenter(this);
-        presenter.setFilter(new RepoListFilter(editText.getText().toString()));
-        presenter.loadData();
-
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(llm);
-        adapter = new RecyclerViewAdapter();
-        recyclerView.setAdapter(adapter);
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = editText.getText().toString();
-                if (!TextUtils.isEmpty(text)) {
-                    presenter.setFilter(new RepoListFilter(text));
-                    presenter.loadData();
-                }
-
-            }
-        });
-
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG);
+        if (fragment == null) replaceFragment(new RepoListFragment(), false);
     }
 
     @Override
-    public void inflateData(List<Repo> list) {
-        if (list != null && !list.isEmpty()) {
-            adapter.setRepos(list);
-        } else {
-            makeToast(getString(R.string.empty_repo_list));
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (presenter != null) {
-            presenter.unsubscribe();
-        }
+    private void replaceFragment(Fragment fragment, boolean addBackStack) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.container, fragment, TAG);
+        if (addBackStack) transaction.addToBackStack(null);
+        transaction.commit();
     }
 
-    private void makeToast(String text) {
-        Snackbar.make(toolbar, text, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showError(Throwable e) {
-        makeToast(e.getMessage());
+    @SuppressWarnings("unused")
+    public void onEvent(ReplaceFragmentEvent event) {
+        replaceFragment(event.getFragment(), true);
     }
 }
