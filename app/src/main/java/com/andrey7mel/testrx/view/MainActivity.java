@@ -9,13 +9,11 @@ import android.support.v7.widget.Toolbar;
 
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
-import com.andrey7mel.testrx.view.events.ReplaceFragmentEvent;
 import com.andrey7mel.testrx.view.fragments.RepoInfoFragment;
 import com.andrey7mel.testrx.view.fragments.RepoListFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,17 +30,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        EventBus.getDefault().register(this);
         fragmentManager = getSupportFragmentManager();
 
         Fragment fragment = fragmentManager.findFragmentByTag(TAG);
         if (fragment == null) replaceFragment(new RepoListFragment(), false);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     private void replaceFragment(Fragment fragment, boolean addBackStack) {
@@ -56,8 +47,5 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(RepoInfoFragment.newInstance(repositoryVO), true);
     }
 
-    @SuppressWarnings("unused")
-    public void onEvent(ReplaceFragmentEvent event) {
-        replaceFragment(event.getFragment(), true);
-    }
+
 }

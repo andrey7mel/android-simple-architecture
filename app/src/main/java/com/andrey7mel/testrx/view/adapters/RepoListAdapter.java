@@ -17,14 +17,14 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
 
     RepoListPresenter presenter;
-    private List<RepositoryVO> Repos = new ArrayList<>();
+    private List<RepositoryVO> repoList = new ArrayList<>();
 
     public RepoListAdapter(RepoListPresenter presenter) {
         this.presenter = presenter;
     }
 
-    public void setRepos(List<RepositoryVO> Repos) {
-        this.Repos = Repos;
+    public void setRepoList(List<RepositoryVO> Repos) {
+        this.repoList = Repos;
         notifyDataSetChanged();
     }
 
@@ -38,20 +38,14 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final RepositoryVO repo = Repos.get(i);
+        final RepositoryVO repo = repoList.get(i);
         viewHolder.name.setText(repo.getRepoName());
-        viewHolder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.clickRepo(repo);
-//                EventBus.getDefault().post(new ReplaceFragmentEvent(RepoInfoFragment.newInstance(repo)));
-            }
-        });
+        viewHolder.name.setOnClickListener(v -> presenter.clickRepo(repo));
     }
 
     @Override
     public int getItemCount() {
-        return Repos.size();
+        return repoList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

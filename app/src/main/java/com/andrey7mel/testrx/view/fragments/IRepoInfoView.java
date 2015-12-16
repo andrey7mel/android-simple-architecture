@@ -10,5 +10,4 @@ public interface IRepoInfoView extends IView {
     void setContributors(List<ContributorVO> contributors);
 
     void setBranches(List<BranchVO> branches);
-
 }

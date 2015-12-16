@@ -66,7 +66,6 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
         });
 
-
         if (savedInstanceState != null) {
             repoList = (List<RepositoryVO>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
         }
@@ -78,15 +77,13 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
             showList();
         }
 
-
         return view;
     }
 
 
     private void showList() {
         if (repoList != null)
-            adapter.setRepos(repoList);
-
+            adapter.setRepoList(repoList);
     }
 
 
