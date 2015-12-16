@@ -1,6 +1,6 @@
 package com.andrey7mel.testrx.presenter;
 
-import com.andrey7mel.testrx.presenter.filters.RepoFilter;
+import com.andrey7mel.testrx.presenter.filters.RepoInfoFilter;
 import com.andrey7mel.testrx.presenter.mappers.RepoBranchesMapper;
 import com.andrey7mel.testrx.presenter.mappers.RepoContributorsMapper;
 import com.andrey7mel.testrx.presenter.vo.BranchVO;
@@ -14,7 +14,6 @@ import rx.Subscription;
 
 public class RepoInfoPresenter extends BasePresenter {
 
-    private RepoFilter filter;
     private IRepoInfoView view;
 
     private RepoBranchesMapper branchesMapper = new RepoBranchesMapper();
@@ -24,8 +23,8 @@ public class RepoInfoPresenter extends BasePresenter {
         this.view = view;
     }
 
-    public void loadData() {
-        Subscription subscriptionBranches = dataRepository.getRepoBranches(filter)
+    public void loadData(RepoInfoFilter filter) {
+        Subscription subscriptionBranches = dataRepository.getRepoBranches(filter.getOwner(), filter.getRepo())
                 .map(branchesMapper)
                 .subscribe(new Observer<List<BranchVO>>() {
                     @Override
@@ -45,7 +44,7 @@ public class RepoInfoPresenter extends BasePresenter {
                 });
         addSubscription(subscriptionBranches, BRANCHES_KEY);
 
-        Subscription subscriptionContributors = dataRepository.getRepoContributors(filter)
+        Subscription subscriptionContributors = dataRepository.getRepoContributors(filter.getOwner(), filter.getRepo())
                 .map(contributorsMapper)
                 .subscribe(new Observer<List<ContributorVO>>() {
                     @Override
@@ -66,8 +65,5 @@ public class RepoInfoPresenter extends BasePresenter {
         addSubscription(subscriptionContributors, CONTRIBUTORS_KEY);
     }
 
-    public void setFilter(RepoFilter filter) {
-        this.filter = filter;
-    }
 
 }

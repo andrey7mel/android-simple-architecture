@@ -5,8 +5,6 @@ import com.andrey7mel.testrx.model.api.ApiModule;
 import com.andrey7mel.testrx.model.dto.BranchDTO;
 import com.andrey7mel.testrx.model.dto.ContributorDTO;
 import com.andrey7mel.testrx.model.dto.RepositoryDTO;
-import com.andrey7mel.testrx.presenter.filters.RepoFilter;
-import com.andrey7mel.testrx.presenter.filters.RepoListFilter;
 
 import java.util.List;
 
@@ -27,23 +25,23 @@ public class DataRepository implements IDataRepository {
     }
 
     @Override
-    public Observable<List<RepositoryDTO>> getRepoList(RepoListFilter filter) {
+    public Observable<List<RepositoryDTO>> getRepoList(String name) {
         return apiInterface
-                .getRepositories(filter.getName())
+                .getRepositories(name)
                 .compose(applySchedulers());
     }
 
     @Override
-    public Observable<List<BranchDTO>> getRepoBranches(RepoFilter filter) {
+    public Observable<List<BranchDTO>> getRepoBranches(String owner, String name) {
         return apiInterface
-                .getBranches(filter.getOwner(), filter.getRepo())
+                .getBranches(owner, name)
                 .compose(applySchedulers());
     }
 
     @Override
-    public Observable<List<ContributorDTO>> getRepoContributors(RepoFilter filter) {
+    public Observable<List<ContributorDTO>> getRepoContributors(String owner, String name) {
         return apiInterface
-                .getContributors(filter.getOwner(), filter.getRepo())
+                .getContributors(owner, name)
                 .compose(applySchedulers());
     }
 

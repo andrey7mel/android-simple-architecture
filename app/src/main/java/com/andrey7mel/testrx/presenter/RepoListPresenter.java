@@ -12,7 +12,6 @@ import rx.Subscription;
 
 public class RepoListPresenter extends BasePresenter {
 
-    private RepoListFilter filter;
     private IRepoListView view;
 
     private UserReposMapper userReposMapper = new UserReposMapper();
@@ -21,8 +20,8 @@ public class RepoListPresenter extends BasePresenter {
         this.view = view;
     }
 
-    public void loadData() {
-        Subscription subscription = dataRepository.getRepoList(filter)
+    public void loadData(RepoListFilter filter) {
+        Subscription subscription = dataRepository.getRepoList(filter.getName())
                 .map(userReposMapper)
                 .subscribe(new Observer<List<RepositoryVO>>() {
                     @Override
@@ -47,10 +46,6 @@ public class RepoListPresenter extends BasePresenter {
                 });
         addSubscription(subscription, USER_REPOSITORIES_KEY);
 
-    }
-
-    public void setFilter(RepoListFilter filter) {
-        this.filter = filter;
     }
 
     public void clickRepo(RepositoryVO repositoryVO) {

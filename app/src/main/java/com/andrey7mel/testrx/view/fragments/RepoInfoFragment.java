@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.BasePresenter;
 import com.andrey7mel.testrx.presenter.RepoInfoPresenter;
-import com.andrey7mel.testrx.presenter.filters.RepoFilter;
+import com.andrey7mel.testrx.presenter.filters.RepoInfoFilter;
 import com.andrey7mel.testrx.presenter.vo.BranchVO;
 import com.andrey7mel.testrx.presenter.vo.ContributorVO;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
@@ -104,8 +104,7 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
     private void initPresenter() {
         presenter = new RepoInfoPresenter(this);
-        presenter.setFilter(new RepoFilter(getRepositoryVO().getOwnerName(), getRepositoryVO().getRepoName()));
-        presenter.loadData();
+        presenter.loadData(new RepoInfoFilter(getRepositoryVO().getOwnerName(), getRepositoryVO().getRepoName()));
     }
 
     @Override
@@ -145,21 +144,25 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
     }
 
     private void showContributors() {
-        List<String> names = Observable.from(contributorList)
-                .map(ContributorVO::getName)
-                .toList()
-                .toBlocking()
-                .first();
-        branchesRecyclerView.setAdapter(new SimpleAdapter(names));
+        if (contributorList != null && !contributorList.isEmpty()) {
+            List<String> names = Observable.from(contributorList)
+                    .map(ContributorVO::getName)
+                    .toList()
+                    .toBlocking()
+                    .first();
+            branchesRecyclerView.setAdapter(new SimpleAdapter(names));
+        }
     }
 
     private void showBranches() {
-        List<String> names = Observable.from(branchList)
-                .map(BranchVO::getName)
-                .toList()
-                .toBlocking()
-                .first();
-        contributorsRecyclerView.setAdapter(new SimpleAdapter(names));
+        if (branchList != null && !branchList.isEmpty()) {
+            List<String> names = Observable.from(branchList)
+                    .map(BranchVO::getName)
+                    .toList()
+                    .toBlocking()
+                    .first();
+            contributorsRecyclerView.setAdapter(new SimpleAdapter(names));
+        }
     }
 
 

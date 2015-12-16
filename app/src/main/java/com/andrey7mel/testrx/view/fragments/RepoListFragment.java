@@ -59,10 +59,9 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
         recyclerView.setAdapter(adapter);
 
         searchButton.setOnClickListener(v -> {
-            String text = editText.getText().toString();
-            if (!TextUtils.isEmpty(text)) {
-                presenter.setFilter(new RepoListFilter(text));
-                presenter.loadData();
+            String userName = editText.getText().toString();
+            if (!TextUtils.isEmpty(userName)) {
+                presenter.loadData(new RepoListFilter(userName));
             }
 
         });
@@ -74,10 +73,9 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
         //Fix save state on replace fragment
         if (repoList == null) {
-            presenter.setFilter(new RepoListFilter(editText.getText().toString()));
-            presenter.loadData();
+            presenter.loadData(new RepoListFilter(editText.getText().toString()));
         } else {
-            setData();
+            showList();
         }
 
 
@@ -85,10 +83,10 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     }
 
 
-    private void setData() {
-        if (repoList != null) {
+    private void showList() {
+        if (repoList != null)
             adapter.setRepos(repoList);
-        }
+
     }
 
 
@@ -110,7 +108,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     @Override
     public void setRepoList(List<RepositoryVO> vo) {
         repoList = vo;
-        setData();
+        showList();
     }
 
     @Override
