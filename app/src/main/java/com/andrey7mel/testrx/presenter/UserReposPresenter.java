@@ -1,6 +1,7 @@
 package com.andrey7mel.testrx.presenter;
 
 import com.andrey7mel.testrx.presenter.filters.UserRepoFilter;
+import com.andrey7mel.testrx.presenter.mappers.UserReposMapper;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.fragments.IRepoListView;
 
@@ -14,14 +15,15 @@ public class UserReposPresenter extends BasePresenter {
     private UserRepoFilter filter;
     private IRepoListView view;
 
+    private UserReposMapper userReposMapper = new UserReposMapper();
 
     public UserReposPresenter(IRepoListView view) {
         this.view = view;
     }
 
-
     public void loadData() {
         Subscription subscription = dataRepository.getRepoList(filter)
+                .map(userReposMapper)
                 .subscribe(new Observer<List<RepositoryVO>>() {
                     @Override
                     public void onCompleted() {

@@ -11,5 +11,4 @@
         android:text="Repo"
         android:textAppearance="?android:attr/textAppearanceListItem" />
 
-
 </LinearLayout>

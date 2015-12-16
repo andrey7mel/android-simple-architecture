@@ -1,6 +1,8 @@
 package com.andrey7mel.testrx.presenter.vo;
 
-public class ContributorVO {
+import java.io.Serializable;
+
+public class ContributorVO implements Serializable {
     private String name;
 
     public ContributorVO(String name) {

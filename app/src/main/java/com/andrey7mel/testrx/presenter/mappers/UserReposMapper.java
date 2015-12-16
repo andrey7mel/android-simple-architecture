@@ -1,4 +1,4 @@
-package com.andrey7mel.testrx.model.mappers;
+package com.andrey7mel.testrx.presenter.mappers;
 
 import com.andrey7mel.testrx.model.dto.RepositoryDTO;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;

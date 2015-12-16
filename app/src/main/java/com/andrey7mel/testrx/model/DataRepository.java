@@ -1,12 +1,12 @@
 package com.andrey7mel.testrx.model;
 
-import com.andrey7mel.testrx.model.dataprovider.RepoDataProvider;
-import com.andrey7mel.testrx.model.dataprovider.UserDataProvider;
+import com.andrey7mel.testrx.model.api.ApiInterface;
+import com.andrey7mel.testrx.model.api.ApiModule;
+import com.andrey7mel.testrx.model.dto.BranchDTO;
+import com.andrey7mel.testrx.model.dto.ContributorDTO;
+import com.andrey7mel.testrx.model.dto.RepositoryDTO;
 import com.andrey7mel.testrx.presenter.filters.RepoFilter;
 import com.andrey7mel.testrx.presenter.filters.UserRepoFilter;
-import com.andrey7mel.testrx.presenter.vo.BranchVO;
-import com.andrey7mel.testrx.presenter.vo.ContributorVO;
-import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 
 import java.util.List;
 
@@ -17,10 +17,7 @@ import rx.schedulers.Schedulers;
 public class DataRepository implements IDataRepository {
 
     private final Observable.Transformer schedulersTransformer;
-
-    RepoDataProvider repoDataProvider = new RepoDataProvider();
-    UserDataProvider userDataProvider = new UserDataProvider();
-
+    private ApiInterface apiInterface = ApiModule.getApiInterface();
 
     public DataRepository() {
         schedulersTransformer = o -> ((Observable) o).subscribeOn(Schedulers.io())
@@ -30,20 +27,23 @@ public class DataRepository implements IDataRepository {
     }
 
     @Override
-    public Observable<List<RepositoryVO>> getRepoList(UserRepoFilter filter) {
-        return userDataProvider.getUserRepositories(filter)
+    public Observable<List<RepositoryDTO>> getRepoList(UserRepoFilter filter) {
+        return apiInterface
+                .getRepositories(filter.getName())
                 .compose(applySchedulers());
     }
 
     @Override
-    public Observable<List<BranchVO>> getRepoBranches(RepoFilter filter) {
-        return repoDataProvider.getRepoBranches(filter)
+    public Observable<List<BranchDTO>> getRepoBranches(RepoFilter filter) {
+        return apiInterface
+                .getBranches(filter.getOwner(), filter.getRepo())
                 .compose(applySchedulers());
     }
 
     @Override
-    public Observable<List<ContributorVO>> getRepoContributors(RepoFilter filter) {
-        return repoDataProvider.getRepoContributors(filter)
+    public Observable<List<ContributorDTO>> getRepoContributors(RepoFilter filter) {
+        return apiInterface
+                .getContributors(filter.getOwner(), filter.getRepo())
                 .compose(applySchedulers());
     }
 

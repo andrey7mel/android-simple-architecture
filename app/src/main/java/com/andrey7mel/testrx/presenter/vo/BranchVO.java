@@ -1,6 +1,8 @@
 package com.andrey7mel.testrx.presenter.vo;
 
-public class BranchVO {
+import java.io.Serializable;
+
+public class BranchVO implements Serializable {
     private String name;
 
     public BranchVO(String name) {

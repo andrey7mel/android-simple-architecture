@@ -21,22 +21,43 @@
         android:layout_height="wrap_content"
         android:text="Repo Info"
         android:textColor="@android:color/black"
-        android:textSize="17sp" />
+        android:textSize="@dimen/text_size" />
 
-    <TextView
-        android:id="@+id/repo_branches"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Branches: "
-        android:textColor="@android:color/black"
-        android:textSize="17sp" />
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
 
-    <TextView
-        android:id="@+id/repo_contributors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contributors: "
-        android:textColor="@android:color/black"
-        android:textSize="17sp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_branches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+             />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_contributors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
+    <!--<TextView-->
+        <!--android:id="@+id/repo_branches"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Branches: "-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="17sp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/repo_contributors"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Contributors: "-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="17sp" />-->
 
 </LinearLayout>
