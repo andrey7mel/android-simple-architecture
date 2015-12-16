@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.BasePresenter;
-import com.andrey7mel.testrx.presenter.UserReposPresenter;
+import com.andrey7mel.testrx.presenter.RepoListPresenter;
 import com.andrey7mel.testrx.presenter.filters.UserRepoFilter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.adapters.RepoListAdapter;
@@ -30,7 +30,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     public static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
 
 
-    UserReposPresenter presenter = new UserReposPresenter(this);
+    RepoListPresenter presenter = new RepoListPresenter(this);
 
 
     @Bind(R.id.recycler_view)
@@ -107,7 +107,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     }
 
     @Override
-    public void showList(List<RepositoryVO> vo) {
+    public void setRepoList(List<RepositoryVO> vo) {
         repoList = vo;
         setData();
     }

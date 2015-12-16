@@ -68,7 +68,7 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
         return presenter;
     }
 
-    public RepositoryVO getRepoVO() {
+    private RepositoryVO getRepoVO() {
         return (RepositoryVO) getArguments().getSerializable(BUNDLE_REPO_KEY);
     }
 
@@ -94,8 +94,8 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
         if (contributorList == null || branchList == null) {
             initPresenter();
         } else {
-            showBranches(branchList);
-            showContributors(contributorList);
+            showContributors();
+            showBranches();
         }
 
         return view;
@@ -132,9 +132,20 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
     }
 
     @Override
-    public void showContributors(List<ContributorVO> contributors) {
+    public void setContributors(List<ContributorVO> contributors) {
         contributorList = contributors;
-        List<String> names = Observable.from(contributors)
+        showContributors();
+    }
+
+    @Override
+    public void setBranches(List<BranchVO> branches) {
+        branchList = branches;
+        showBranches();
+
+    }
+
+    private void showContributors() {
+        List<String> names = Observable.from(contributorList)
                 .map(ContributorVO::getName)
                 .toList()
                 .toBlocking()
@@ -142,15 +153,14 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
         branchesRecyclerView.setAdapter(new SimpleAdapter(names));
     }
 
-    @Override
-    public void showBranches(List<BranchVO> branches) {
-        branchList = branches;
-        List<String> names = Observable.from(branches)
+    private void showBranches() {
+        List<String> names = Observable.from(branchList)
                 .map(BranchVO::getName)
                 .toList()
                 .toBlocking()
                 .first();
         contributorsRecyclerView.setAdapter(new SimpleAdapter(names));
     }
+
 
 }

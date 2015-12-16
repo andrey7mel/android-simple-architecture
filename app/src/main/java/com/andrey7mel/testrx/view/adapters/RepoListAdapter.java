@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andrey7mel.testrx.R;
-import com.andrey7mel.testrx.presenter.UserReposPresenter;
+import com.andrey7mel.testrx.presenter.RepoListPresenter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.events.ReplaceFragmentEvent;
 import com.andrey7mel.testrx.view.fragments.RepoInfoFragment;
@@ -20,10 +20,10 @@ import de.greenrobot.event.EventBus;
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHolder> {
 
 
-    UserReposPresenter presenter;
+    RepoListPresenter presenter;
     private List<RepositoryVO> Repos = new ArrayList<>();
 
-    public RepoListAdapter(UserReposPresenter presenter) {
+    public RepoListAdapter(RepoListPresenter presenter) {
         this.presenter = presenter;
     }
 

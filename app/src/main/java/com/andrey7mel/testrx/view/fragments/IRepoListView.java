@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IRepoListView extends IView {
 
-    void showList(List<RepositoryVO> vo);
+    void setRepoList(List<RepositoryVO> vo);
 
     void showEmptyList();
 }

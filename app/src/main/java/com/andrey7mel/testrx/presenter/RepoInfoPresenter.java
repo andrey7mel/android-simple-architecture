@@ -40,7 +40,7 @@ public class RepoInfoPresenter extends BasePresenter {
 
                     @Override
                     public void onNext(List<BranchVO> list) {
-                        view.showBranches(list);
+                        view.setBranches(list);
                     }
                 });
         addSubscription(subscriptionBranches, BRANCHES_KEY);
@@ -60,7 +60,7 @@ public class RepoInfoPresenter extends BasePresenter {
 
                     @Override
                     public void onNext(List<ContributorVO> list) {
-                        view.showContributors(list);
+                        view.setContributors(list);
                     }
                 });
         addSubscription(subscriptionContributors, CONTRIBUTORS_KEY);

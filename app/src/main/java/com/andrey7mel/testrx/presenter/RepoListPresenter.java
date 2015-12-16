@@ -10,14 +10,14 @@ import java.util.List;
 import rx.Observer;
 import rx.Subscription;
 
-public class UserReposPresenter extends BasePresenter {
+public class RepoListPresenter extends BasePresenter {
 
     private UserRepoFilter filter;
     private IRepoListView view;
 
     private UserReposMapper userReposMapper = new UserReposMapper();
 
-    public UserReposPresenter(IRepoListView view) {
+    public RepoListPresenter(IRepoListView view) {
         this.view = view;
     }
 
@@ -38,7 +38,7 @@ public class UserReposPresenter extends BasePresenter {
                     @Override
                     public void onNext(List<RepositoryVO> list) {
                         if (list != null && !list.isEmpty()) {
-                            view.showList(list);
+                            view.setRepoList(list);
 
                         } else {
                             view.showEmptyList();
