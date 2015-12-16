@@ -40,11 +40,6 @@ public class RepoInfoPresenter extends BasePresenter {
 
                     @Override
                     public void onNext(List<BranchVO> list) {
-//                        StringBuilder stringBuilder = new StringBuilder();
-//                        Observable.from(list).subscribe(s -> stringBuilder.append(s.getName()).append(", "));
-//                        if (stringBuilder.length() > 1) {
-//                            stringBuilder.setLength(stringBuilder.length() - 2);
-//                        }
                         view.showBranches(list);
                     }
                 });

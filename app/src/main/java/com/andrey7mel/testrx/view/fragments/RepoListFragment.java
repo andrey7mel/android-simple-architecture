@@ -19,12 +19,15 @@ import com.andrey7mel.testrx.presenter.filters.UserRepoFilter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.adapters.RepoListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class RepoListFragment extends BaseFragment implements IRepoListView {
+
+    public static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
 
 
     UserReposPresenter presenter = new UserReposPresenter(this);
@@ -41,7 +44,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     Button searchButton;
 
     private RepoListAdapter adapter;
-    private List<RepositoryVO> lastList;
+    private List<RepositoryVO> repoList;
 
     @Nullable
     @Override
@@ -54,20 +57,22 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
         adapter = new RepoListAdapter(presenter);
         recyclerView.setAdapter(adapter);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = editText.getText().toString();
-                if (!TextUtils.isEmpty(text)) {
-                    presenter.setFilter(new UserRepoFilter(text));
-                    presenter.loadData();
-                }
-
+        searchButton.setOnClickListener(v -> {
+            String text = editText.getText().toString();
+            if (!TextUtils.isEmpty(text)) {
+                presenter.setFilter(new UserRepoFilter(text));
+                presenter.loadData();
             }
+
         });
 
+
+        if (savedInstanceState != null) {
+            repoList = (List<RepositoryVO>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
+        }
+
         //Fix save state on replace fragment
-        if (lastList == null) {
+        if (repoList == null) {
             presenter.setFilter(new UserRepoFilter(editText.getText().toString()));
             presenter.loadData();
         } else {
@@ -80,8 +85,8 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
 
     private void setData() {
-        if (lastList != null) {
-            adapter.setRepos(lastList);
+        if (repoList != null) {
+            adapter.setRepos(repoList);
         }
     }
 
@@ -103,7 +108,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
     @Override
     public void showList(List<RepositoryVO> vo) {
-        lastList = vo;
+        repoList = vo;
         setData();
     }
 
@@ -112,5 +117,11 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
         makeToast("Empty List!");
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (repoList != null)
+            outState.putSerializable(BUNDLE_REPO_LIST_KEY, new ArrayList<>(repoList));
+    }
 
 }

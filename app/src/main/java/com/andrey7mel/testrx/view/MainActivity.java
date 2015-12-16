@@ -18,8 +18,10 @@ import de.greenrobot.event.EventBus;
 public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "TAG";
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     private FragmentManager fragmentManager;
 
     @Override

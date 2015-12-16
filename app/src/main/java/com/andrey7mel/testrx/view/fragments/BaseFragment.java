@@ -1,12 +1,10 @@
 package com.andrey7mel.testrx.view.fragments;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.andrey7mel.testrx.presenter.BasePresenter;
 
 public abstract class BaseFragment extends Fragment {
-
 
     protected abstract BasePresenter getPresenter();
 
@@ -17,14 +15,6 @@ public abstract class BaseFragment extends Fragment {
             getPresenter().unsubscribe();
         }
     }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        setRetainInstance(true);
-    }
-
 
 }
 
