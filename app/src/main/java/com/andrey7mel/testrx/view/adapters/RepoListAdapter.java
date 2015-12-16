@@ -9,13 +9,9 @@ import android.widget.TextView;
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.RepoListPresenter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
-import com.andrey7mel.testrx.view.events.ReplaceFragmentEvent;
-import com.andrey7mel.testrx.view.fragments.RepoInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHolder> {
 
@@ -47,8 +43,8 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         viewHolder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                presenter.clickRepo(repo);
-                EventBus.getDefault().post(new ReplaceFragmentEvent(RepoInfoFragment.newInstance(repo)));
+                presenter.clickRepo(repo);
+//                EventBus.getDefault().post(new ReplaceFragmentEvent(RepoInfoFragment.newInstance(repo)));
             }
         });
     }

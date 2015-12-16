@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.andrey7mel.testrx.R;
+import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.events.ReplaceFragmentEvent;
+import com.andrey7mel.testrx.view.fragments.RepoInfoFragment;
 import com.andrey7mel.testrx.view.fragments.RepoListFragment;
 
 import butterknife.Bind;
@@ -48,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.container, fragment, TAG);
         if (addBackStack) transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void startRepoInfoFragment(RepositoryVO repositoryVO) {
+        replaceFragment(RepoInfoFragment.newInstance(repositoryVO), true);
     }
 
     @SuppressWarnings("unused")

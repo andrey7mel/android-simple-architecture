@@ -52,11 +52,11 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
     private RepoInfoPresenter presenter;
 
 
-    public static RepoInfoFragment newInstance(RepositoryVO vo) {
+    public static RepoInfoFragment newInstance(RepositoryVO repositoryVO) {
         RepoInfoFragment myFragment = new RepoInfoFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(BUNDLE_REPO_KEY, vo);
+        args.putSerializable(BUNDLE_REPO_KEY, repositoryVO);
         myFragment.setArguments(args);
 
         return myFragment;
@@ -68,7 +68,7 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
         return presenter;
     }
 
-    private RepositoryVO getRepoVO() {
+    private RepositoryVO getRepositoryVO() {
         return (RepositoryVO) getArguments().getSerializable(BUNDLE_REPO_KEY);
     }
 
@@ -79,7 +79,7 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
         ButterKnife.bind(this, view);
 
 
-        String infoText = getRepoVO().getRepoName() + " (" + getRepoVO().getOwnerName() + ")";
+        String infoText = getRepositoryVO().getRepoName() + " (" + getRepositoryVO().getOwnerName() + ")";
         info.setText(infoText);
 
         branchesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -104,7 +104,7 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
     private void initPresenter() {
         presenter = new RepoInfoPresenter(this);
-        presenter.setFilter(new RepoFilter(getRepoVO().getOwnerName(), getRepoVO().getRepoName()));
+        presenter.setFilter(new RepoFilter(getRepositoryVO().getOwnerName(), getRepositoryVO().getRepoName()));
         presenter.loadData();
     }
 

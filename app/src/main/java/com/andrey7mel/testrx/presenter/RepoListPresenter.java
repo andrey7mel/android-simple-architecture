@@ -1,6 +1,6 @@
 package com.andrey7mel.testrx.presenter;
 
-import com.andrey7mel.testrx.presenter.filters.UserRepoFilter;
+import com.andrey7mel.testrx.presenter.filters.RepoListFilter;
 import com.andrey7mel.testrx.presenter.mappers.UserReposMapper;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.fragments.IRepoListView;
@@ -12,7 +12,7 @@ import rx.Subscription;
 
 public class RepoListPresenter extends BasePresenter {
 
-    private UserRepoFilter filter;
+    private RepoListFilter filter;
     private IRepoListView view;
 
     private UserReposMapper userReposMapper = new UserReposMapper();
@@ -49,8 +49,12 @@ public class RepoListPresenter extends BasePresenter {
 
     }
 
-    public void setFilter(UserRepoFilter filter) {
+    public void setFilter(RepoListFilter filter) {
         this.filter = filter;
+    }
+
+    public void clickRepo(RepositoryVO repositoryVO) {
+        view.startRepoInfoFragment(repositoryVO);
     }
 
 }

@@ -1,9 +1,9 @@
 package com.andrey7mel.testrx.presenter.filters;
 
-public class UserRepoFilter implements IFilter {
+public class RepoListFilter implements IFilter {
     private String name;
 
-    public UserRepoFilter(String name) {
+    public RepoListFilter(String name) {
 
         this.name = name;
     }

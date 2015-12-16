@@ -8,5 +8,7 @@ public interface IRepoListView extends IView {
 
     void setRepoList(List<RepositoryVO> vo);
 
+    void startRepoInfoFragment(RepositoryVO vo);
+
     void showEmptyList();
 }

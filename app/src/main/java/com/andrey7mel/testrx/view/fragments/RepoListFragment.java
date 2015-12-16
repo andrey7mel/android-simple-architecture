@@ -15,8 +15,9 @@ import android.widget.EditText;
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.BasePresenter;
 import com.andrey7mel.testrx.presenter.RepoListPresenter;
-import com.andrey7mel.testrx.presenter.filters.UserRepoFilter;
+import com.andrey7mel.testrx.presenter.filters.RepoListFilter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
+import com.andrey7mel.testrx.view.MainActivity;
 import com.andrey7mel.testrx.view.adapters.RepoListAdapter;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
         searchButton.setOnClickListener(v -> {
             String text = editText.getText().toString();
             if (!TextUtils.isEmpty(text)) {
-                presenter.setFilter(new UserRepoFilter(text));
+                presenter.setFilter(new RepoListFilter(text));
                 presenter.loadData();
             }
 
@@ -73,7 +74,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
         //Fix save state on replace fragment
         if (repoList == null) {
-            presenter.setFilter(new UserRepoFilter(editText.getText().toString()));
+            presenter.setFilter(new RepoListFilter(editText.getText().toString()));
             presenter.loadData();
         } else {
             setData();
@@ -110,6 +111,11 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     public void setRepoList(List<RepositoryVO> vo) {
         repoList = vo;
         setData();
+    }
+
+    @Override
+    public void startRepoInfoFragment(RepositoryVO repositoryVO) {
+        ((MainActivity) getActivity()).startRepoInfoFragment(repositoryVO);
     }
 
     @Override
