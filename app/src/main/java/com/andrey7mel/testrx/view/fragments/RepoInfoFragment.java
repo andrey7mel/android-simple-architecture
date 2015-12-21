@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.BasePresenter;
 import com.andrey7mel.testrx.presenter.RepoInfoPresenter;
-import com.andrey7mel.testrx.presenter.filters.RepoInfoFilter;
 import com.andrey7mel.testrx.presenter.vo.BranchVO;
 import com.andrey7mel.testrx.presenter.vo.ContributorVO;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
@@ -104,7 +103,7 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
     private void initPresenter() {
         presenter = new RepoInfoPresenter(this);
-        presenter.loadData(new RepoInfoFilter(getRepositoryVO().getOwnerName(), getRepositoryVO().getRepoName()));
+        presenter.loadData(getRepositoryVO().getOwnerName(), getRepositoryVO().getRepoName());
     }
 
     @Override

@@ -9,10 +9,10 @@ public abstract class BaseFragment extends Fragment {
     protected abstract BasePresenter getPresenter();
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         if (getPresenter() != null) {
-            getPresenter().unsubscribe();
+            getPresenter().onStop();
         }
     }
 

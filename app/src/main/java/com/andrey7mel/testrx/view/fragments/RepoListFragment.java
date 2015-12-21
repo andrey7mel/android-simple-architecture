@@ -15,7 +15,6 @@ import android.widget.EditText;
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.BasePresenter;
 import com.andrey7mel.testrx.presenter.RepoListPresenter;
-import com.andrey7mel.testrx.presenter.filters.RepoListFilter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.MainActivity;
 import com.andrey7mel.testrx.view.adapters.RepoListAdapter;
@@ -58,13 +57,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
         adapter = new RepoListAdapter(presenter);
         recyclerView.setAdapter(adapter);
 
-        searchButton.setOnClickListener(v -> {
-            String userName = editText.getText().toString();
-            if (!TextUtils.isEmpty(userName)) {
-                presenter.loadData(new RepoListFilter(userName));
-            }
-
-        });
+        searchButton.setOnClickListener(v -> loadData());
 
         if (savedInstanceState != null) {
             repoList = (List<RepositoryVO>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
@@ -72,7 +65,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
         //Fix save state on replace fragment
         if (repoList == null) {
-            presenter.loadData(new RepoListFilter(editText.getText().toString()));
+            loadData();
         } else {
             showList();
         }
@@ -80,6 +73,12 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
         return view;
     }
 
+    private void loadData() {
+        String userName = editText.getText().toString();
+        if (!TextUtils.isEmpty(userName)) {
+            presenter.loadData(userName);
+        }
+    }
 
     private void showList() {
         if (repoList != null)
