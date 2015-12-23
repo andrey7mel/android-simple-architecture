@@ -14,6 +14,7 @@ public class ApiModule {
     private static final boolean ENABLE_AUTH = false;
     private static final String AUTH_64 = "***";
 
+    private static final String BASE_URL = "https://api.github.com/";
 
     public static ApiInterface getApiInterface() {
 
@@ -38,7 +39,7 @@ public class ApiModule {
         }
 
         Retrofit.Builder builder = new Retrofit.Builder().
-                baseUrl("https://api.github.com/")
+                baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
