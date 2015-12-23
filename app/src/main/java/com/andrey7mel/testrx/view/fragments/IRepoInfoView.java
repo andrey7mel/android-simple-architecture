@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface IRepoInfoView extends IView {
 
-    void setContributors(List<ContributorVO> contributors);
+    void showContributors(List<ContributorVO> contributors);
 
-    void setBranches(List<BranchVO> branches);
+    void showBranches(List<BranchVO> branches);
+
 }

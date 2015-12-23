@@ -18,7 +18,6 @@ import com.andrey7mel.testrx.presenter.vo.ContributorVO;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.adapters.SimpleAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -28,28 +27,15 @@ import rx.Observable;
 public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
     public static final String BUNDLE_REPO_KEY = "BUNDLE_REPO_KEY";
-    public static final String BUNDLE_INFO_KEY = "BUNDLE_INFO_KEY";
-    public static final String BUNDLE_BRANCHES_KEY = "BUNDLE_BRANCHES_KEY";
-    public static final String BUNDLE_CONTRIBUTORS_KEY = "BUNDLE_CONTRIBUTORS_KEY";
-
-
     @Bind(R.id.repo_info)
     TextView info;
-
     @Bind(R.id.recycler_view_branches)
     RecyclerView branchesRecyclerView;
-
     @Bind(R.id.recycler_view_contributors)
     RecyclerView contributorsRecyclerView;
-
     @Bind(R.id.linear_layout)
     View layout;
-
-    private List<ContributorVO> contributorList;
-    private List<BranchVO> branchList;
-
     private RepoInfoPresenter presenter;
-
 
     public static RepoInfoFragment newInstance(RepositoryVO repositoryVO) {
         RepoInfoFragment myFragment = new RepoInfoFragment();
@@ -77,45 +63,23 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
         View view = inflater.inflate(R.layout.fragment_repo_info, container, false);
         ButterKnife.bind(this, view);
 
-
         String infoText = getRepositoryVO().getRepoName() + " (" + getRepositoryVO().getOwnerName() + ")";
         info.setText(infoText);
 
         branchesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         contributorsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        if (savedInstanceState != null) {
-            contributorList = (List<ContributorVO>) savedInstanceState.getSerializable(BUNDLE_CONTRIBUTORS_KEY);
-            branchList = (List<BranchVO>) savedInstanceState.getSerializable(BUNDLE_BRANCHES_KEY);
-        }
-
-        if (contributorList == null || branchList == null) {
-            initPresenter();
-        } else {
-            showContributors();
-            showBranches();
-        }
+        presenter = new RepoInfoPresenter(this, getRepositoryVO());
+        presenter.onCreate(savedInstanceState);
 
         return view;
     }
 
 
-    private void initPresenter() {
-        presenter = new RepoInfoPresenter(this);
-        presenter.loadData(getRepositoryVO().getOwnerName(), getRepositoryVO().getRepoName());
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(BUNDLE_INFO_KEY, info.getText().toString());
-        if (contributorList != null)
-            outState.putSerializable(BUNDLE_CONTRIBUTORS_KEY, new ArrayList<>(contributorList));
-        if (branchList != null)
-            outState.putSerializable(BUNDLE_BRANCHES_KEY, new ArrayList<>(branchList));
-
-
+        presenter.onSaveInstanceState(outState);
     }
 
 
@@ -130,39 +94,24 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
     }
 
     @Override
-    public void setContributors(List<ContributorVO> contributors) {
-        contributorList = contributors;
-        showContributors();
+    public void showContributors(List<ContributorVO> contributors) {
+        List<String> names = Observable.from(contributors)
+                .map(ContributorVO::getName)
+                .toList()
+                .toBlocking()
+                .first();
+        branchesRecyclerView.setAdapter(new SimpleAdapter(names));
     }
 
     @Override
-    public void setBranches(List<BranchVO> branches) {
-        branchList = branches;
-        showBranches();
+    public void showBranches(List<BranchVO> branches) {
+        List<String> names = Observable.from(branches)
+                .map(BranchVO::getName)
+                .toList()
+                .toBlocking()
+                .first();
+        contributorsRecyclerView.setAdapter(new SimpleAdapter(names));
 
     }
-
-    private void showContributors() {
-        if (contributorList != null && !contributorList.isEmpty()) {
-            List<String> names = Observable.from(contributorList)
-                    .map(ContributorVO::getName)
-                    .toList()
-                    .toBlocking()
-                    .first();
-            branchesRecyclerView.setAdapter(new SimpleAdapter(names));
-        }
-    }
-
-    private void showBranches() {
-        if (branchList != null && !branchList.isEmpty()) {
-            List<String> names = Observable.from(branchList)
-                    .map(BranchVO::getName)
-                    .toList()
-                    .toBlocking()
-                    .first();
-            contributorsRecyclerView.setAdapter(new SimpleAdapter(names));
-        }
-    }
-
 
 }

@@ -11,4 +11,6 @@ public interface IRepoListView extends IView {
     void startRepoInfoFragment(RepositoryVO vo);
 
     void showEmptyList();
+
+    String getInputName();
 }

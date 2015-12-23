@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.MainActivity;
 import com.andrey7mel.testrx.view.adapters.RepoListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,7 +25,6 @@ import butterknife.ButterKnife;
 
 public class RepoListFragment extends BaseFragment implements IRepoListView {
 
-    public static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
 
 
     RepoListPresenter presenter = new RepoListPresenter(this);
@@ -44,7 +41,6 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     Button searchButton;
 
     private RepoListAdapter adapter;
-    private List<RepositoryVO> repoList;
 
     @Nullable
     @Override
@@ -57,33 +53,13 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
         adapter = new RepoListAdapter(presenter);
         recyclerView.setAdapter(adapter);
 
-        searchButton.setOnClickListener(v -> loadData());
+        searchButton.setOnClickListener(v -> presenter.loadData());
 
-        if (savedInstanceState != null) {
-            repoList = (List<RepositoryVO>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
-        }
-
-        //Fix save state on replace fragment
-        if (repoList == null) {
-            loadData();
-        } else {
-            showList();
-        }
+        presenter.onCreate(savedInstanceState);
 
         return view;
     }
 
-    private void loadData() {
-        String userName = editText.getText().toString();
-        if (!TextUtils.isEmpty(userName)) {
-            presenter.loadData(userName);
-        }
-    }
-
-    private void showList() {
-        if (repoList != null)
-            adapter.setRepoList(repoList);
-    }
 
 
     private void makeToast(String text) {
@@ -102,9 +78,8 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     }
 
     @Override
-    public void setRepoList(List<RepositoryVO> vo) {
-        repoList = vo;
-        showList();
+    public void setRepoList(List<RepositoryVO> repoList) {
+        adapter.setRepoList(repoList);
     }
 
     @Override
@@ -114,14 +89,18 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
     @Override
     public void showEmptyList() {
-        makeToast("Empty List!");
+        makeToast(getActivity().getString(R.string.empty_list));
+    }
+
+    @Override
+    public String getInputName() {
+        return editText.getText().toString();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (repoList != null)
-            outState.putSerializable(BUNDLE_REPO_LIST_KEY, new ArrayList<>(repoList));
+        presenter.onSaveInstanceState(outState);
     }
 
 }
