@@ -15,7 +15,7 @@ import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.BasePresenter;
 import com.andrey7mel.testrx.presenter.RepoListPresenter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
-import com.andrey7mel.testrx.view.MainActivity;
+import com.andrey7mel.testrx.view.ActivityCallback;
 import com.andrey7mel.testrx.view.adapters.RepoListAdapterNew;
 
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
     @Override
     public void startRepoInfoFragment(RepositoryVO repositoryVO) {
-        ((MainActivity) getActivity()).startRepoInfoFragment(repositoryVO);
+        ((ActivityCallback) getActivity()).startRepoInfoFragment(repositoryVO);
     }
 
     @Override

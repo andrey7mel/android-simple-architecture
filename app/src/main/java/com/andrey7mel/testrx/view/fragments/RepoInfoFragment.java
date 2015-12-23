@@ -95,21 +95,11 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
     @Override
     public void showContributors(List<ContributorVO> contributors) {
-//        List<String> names = Observable.from(contributors)
-//                .map(ContributorVO::getName)
-//                .toList()
-//                .toBlocking()
-//                .first();
         branchesRecyclerView.setAdapter(new ContributorsAdapter(contributors));
     }
 
     @Override
     public void showBranches(List<BranchVO> branches) {
-//        List<String> names = Observable.from(branches)
-//                .map(BranchVO::getName)
-//                .toList()
-//                .toBlocking()
-//                .first();
         contributorsRecyclerView.setAdapter(new BranchesAdapter(branches));
 
     }

@@ -15,7 +15,7 @@ import com.andrey7mel.testrx.view.fragments.RepoListFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCallback {
 
     private static String TAG = "TAG";
 
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
     public void startRepoInfoFragment(RepositoryVO repositoryVO) {
         replaceFragment(RepoInfoFragment.newInstance(repositoryVO), true);
     }

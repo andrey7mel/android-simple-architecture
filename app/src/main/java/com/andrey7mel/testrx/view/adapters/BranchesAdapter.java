@@ -16,9 +16,4 @@ public class BranchesAdapter extends BaseAdapter<BranchVO> {
         holder.text.setText(text);
     }
 
-//    @Override
-//    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-//            String text = list.get(i).getName();
-//            viewHolder.text.setText(text);
-//    }
 }
