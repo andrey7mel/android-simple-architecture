@@ -16,13 +16,13 @@ import com.andrey7mel.testrx.presenter.RepoInfoPresenter;
 import com.andrey7mel.testrx.presenter.vo.BranchVO;
 import com.andrey7mel.testrx.presenter.vo.ContributorVO;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
-import com.andrey7mel.testrx.view.adapters.SimpleAdapter;
+import com.andrey7mel.testrx.view.adapters.BranchesAdapter;
+import com.andrey7mel.testrx.view.adapters.ContributorsAdapter;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
 
 public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
@@ -95,22 +95,22 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
     @Override
     public void showContributors(List<ContributorVO> contributors) {
-        List<String> names = Observable.from(contributors)
-                .map(ContributorVO::getName)
-                .toList()
-                .toBlocking()
-                .first();
-        branchesRecyclerView.setAdapter(new SimpleAdapter(names));
+//        List<String> names = Observable.from(contributors)
+//                .map(ContributorVO::getName)
+//                .toList()
+//                .toBlocking()
+//                .first();
+        branchesRecyclerView.setAdapter(new ContributorsAdapter(contributors));
     }
 
     @Override
     public void showBranches(List<BranchVO> branches) {
-        List<String> names = Observable.from(branches)
-                .map(BranchVO::getName)
-                .toList()
-                .toBlocking()
-                .first();
-        contributorsRecyclerView.setAdapter(new SimpleAdapter(names));
+//        List<String> names = Observable.from(branches)
+//                .map(BranchVO::getName)
+//                .toList()
+//                .toBlocking()
+//                .first();
+        contributorsRecyclerView.setAdapter(new BranchesAdapter(branches));
 
     }
 

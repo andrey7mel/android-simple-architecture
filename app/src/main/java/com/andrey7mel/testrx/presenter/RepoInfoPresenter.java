@@ -17,7 +17,6 @@ import rx.Subscription;
 
 public class RepoInfoPresenter extends BasePresenter {
 
-    public static final String BUNDLE_INFO_KEY = "BUNDLE_INFO_KEY";
     public static final String BUNDLE_BRANCHES_KEY = "BUNDLE_BRANCHES_KEY";
     public static final String BUNDLE_CONTRIBUTORS_KEY = "BUNDLE_CONTRIBUTORS_KEY";
     private IRepoInfoView view;

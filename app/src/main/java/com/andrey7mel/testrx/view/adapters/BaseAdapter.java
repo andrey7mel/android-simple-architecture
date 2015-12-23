@@ -10,15 +10,15 @@ import com.andrey7mel.testrx.R;
 
 import java.util.List;
 
-public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder> {
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.ViewHolder> {
 
-    private List<String> list;
+    protected List<T> list;
 
-    public SimpleAdapter(List<String> list) {
+    public BaseAdapter(List<T> list) {
         this.list = list;
     }
 
-    public List<String> getList() {
+    public List<T> getList() {
         return list;
     }
 
@@ -30,19 +30,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
 
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        String text = list.get(i);
-        viewHolder.text.setText(text);
-    }
-
-    @Override
     public int getItemCount() {
         return list.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView text;
+        TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);

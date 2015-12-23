@@ -16,8 +16,9 @@ import com.andrey7mel.testrx.presenter.BasePresenter;
 import com.andrey7mel.testrx.presenter.RepoListPresenter;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.MainActivity;
-import com.andrey7mel.testrx.view.adapters.RepoListAdapter;
+import com.andrey7mel.testrx.view.adapters.RepoListAdapterNew;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -40,7 +41,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     @Bind(R.id.button_search)
     Button searchButton;
 
-    private RepoListAdapter adapter;
+    private RepoListAdapterNew adapter;
 
     @Nullable
     @Override
@@ -50,7 +51,7 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
-        adapter = new RepoListAdapter(presenter);
+        adapter = new RepoListAdapterNew(new ArrayList<>(), presenter);
         recyclerView.setAdapter(adapter);
 
         searchButton.setOnClickListener(v -> presenter.loadData());
