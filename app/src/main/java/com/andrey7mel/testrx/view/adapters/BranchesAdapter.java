@@ -16,4 +16,5 @@ public class BranchesAdapter extends BaseAdapter<BranchVO> {
         holder.text.setText(text);
     }
 
+
 }
