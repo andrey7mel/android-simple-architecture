@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ModelModule.class, PresenterModule.class, ViewModule.class})
+@Component(modules = {ModelModule.class, PresenterModule.class})
 public interface AppComponent {
 
 }

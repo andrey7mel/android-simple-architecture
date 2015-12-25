@@ -6,7 +6,6 @@ import com.andrey7mel.testrx.other.dagger.AppComponent;
 import com.andrey7mel.testrx.other.dagger.DaggerAppComponent;
 import com.andrey7mel.testrx.other.dagger.ModelModule;
 import com.andrey7mel.testrx.other.dagger.PresenterModule;
-import com.andrey7mel.testrx.other.dagger.ViewModule;
 
 public class App extends Application {
     private static AppComponent mComponent;
@@ -21,7 +20,6 @@ public class App extends Application {
         return DaggerAppComponent.builder()
                 .modelModule(new ModelModule())
                 .presenterModule(new PresenterModule())
-                .viewModule(new ViewModule())
                 .build();
     }
 

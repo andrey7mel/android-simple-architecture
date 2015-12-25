@@ -1,14 +1,14 @@
 package com.andrey7mel.testrx.presenter;
 
 import com.andrey7mel.testrx.model.DataRepository;
-import com.andrey7mel.testrx.model.IDataRepository;
+import com.andrey7mel.testrx.model.DataRepositoryImpl;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 public abstract class BasePresenter implements IPresenter {
 
-    protected IDataRepository dataRepository = new DataRepository();
+    protected DataRepository dataRepository = new DataRepositoryImpl();
     private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     protected void addSubscription(Subscription subscription) {
