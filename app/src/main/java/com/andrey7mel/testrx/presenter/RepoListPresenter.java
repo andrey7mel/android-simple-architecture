@@ -3,6 +3,7 @@ package com.andrey7mel.testrx.presenter;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.andrey7mel.testrx.other.App;
 import com.andrey7mel.testrx.presenter.mappers.UserReposMapper;
 import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
 import com.andrey7mel.testrx.view.fragments.IRepoListView;
@@ -10,22 +11,22 @@ import com.andrey7mel.testrx.view.fragments.IRepoListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observer;
 import rx.Subscription;
 
 public class RepoListPresenter extends BasePresenter {
 
     private static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
-
-
+    @Inject
+    protected UserReposMapper userReposMapper;
     private IRepoListView view;
-
-    private UserReposMapper userReposMapper = new UserReposMapper();
-
     private List<RepositoryVO> repoList;
 
     public RepoListPresenter(IRepoListView view) {
         this.view = view;
+        App.getComponent().inject(this);
     }
 
     public void loadData() {

@@ -1,5 +1,10 @@
 package com.andrey7mel.testrx.other.dagger;
 
+import com.andrey7mel.testrx.model.DataRepositoryImpl;
+import com.andrey7mel.testrx.presenter.BasePresenter;
+import com.andrey7mel.testrx.presenter.RepoInfoPresenter;
+import com.andrey7mel.testrx.presenter.RepoListPresenter;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -7,5 +12,13 @@ import dagger.Component;
 @Singleton
 @Component(modules = {ModelModule.class, PresenterModule.class})
 public interface AppComponent {
+
+    void inject(DataRepositoryImpl dataRepository);
+
+    void inject(BasePresenter basePresenter);
+
+    void inject(RepoListPresenter repoListPresenter);
+
+    void inject(RepoInfoPresenter repoInfoPresenter);
 
 }

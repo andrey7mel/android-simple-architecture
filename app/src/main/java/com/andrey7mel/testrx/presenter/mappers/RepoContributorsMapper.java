@@ -5,10 +5,16 @@ import com.andrey7mel.testrx.presenter.vo.ContributorVO;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.functions.Func1;
 
 public class RepoContributorsMapper implements Func1<List<ContributorDTO>, List<ContributorVO>> {
+
+    @Inject
+    public RepoContributorsMapper() {
+    }
 
     @Override
     public List<ContributorVO> call(List<ContributorDTO> branchDTOs) {

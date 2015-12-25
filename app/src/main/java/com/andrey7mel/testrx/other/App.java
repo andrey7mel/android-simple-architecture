@@ -8,12 +8,16 @@ import com.andrey7mel.testrx.other.dagger.ModelModule;
 import com.andrey7mel.testrx.other.dagger.PresenterModule;
 
 public class App extends Application {
-    private static AppComponent mComponent;
+    private static AppComponent component;
+
+    public static AppComponent getComponent() {
+        return component;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mComponent = buildComponent();
+        component = buildComponent();
     }
 
     private AppComponent buildComponent() {

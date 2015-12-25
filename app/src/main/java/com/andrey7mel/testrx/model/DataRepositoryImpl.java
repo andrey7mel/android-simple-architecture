@@ -17,6 +17,7 @@ public class DataRepositoryImpl implements DataRepository {
     private final Observable.Transformer schedulersTransformer;
     private ApiInterface apiInterface = ApiModule.getApiInterface();
 
+
     public DataRepositoryImpl() {
         schedulersTransformer = o -> ((Observable) o).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -2,6 +2,7 @@ package com.andrey7mel.testrx.presenter;
 
 import android.os.Bundle;
 
+import com.andrey7mel.testrx.other.App;
 import com.andrey7mel.testrx.presenter.mappers.RepoBranchesMapper;
 import com.andrey7mel.testrx.presenter.mappers.RepoContributorsMapper;
 import com.andrey7mel.testrx.presenter.vo.BranchVO;
@@ -12,6 +13,8 @@ import com.andrey7mel.testrx.view.fragments.IRepoInfoView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observer;
 import rx.Subscription;
 
@@ -19,9 +22,11 @@ public class RepoInfoPresenter extends BasePresenter {
 
     public static final String BUNDLE_BRANCHES_KEY = "BUNDLE_BRANCHES_KEY";
     public static final String BUNDLE_CONTRIBUTORS_KEY = "BUNDLE_CONTRIBUTORS_KEY";
+    @Inject
+    protected RepoBranchesMapper branchesMapper;
+    @Inject
+    protected RepoContributorsMapper contributorsMapper;
     private IRepoInfoView view;
-    private RepoBranchesMapper branchesMapper = new RepoBranchesMapper();
-    private RepoContributorsMapper contributorsMapper = new RepoContributorsMapper();
     private List<ContributorVO> contributorList;
     private List<BranchVO> branchList;
     private RepositoryVO repositoryVO;
@@ -29,6 +34,7 @@ public class RepoInfoPresenter extends BasePresenter {
     public RepoInfoPresenter(IRepoInfoView view, RepositoryVO repositoryVO) {
         this.view = view;
         this.repositoryVO = repositoryVO;
+        App.getComponent().inject(this);
     }
 
     public void loadData() {
