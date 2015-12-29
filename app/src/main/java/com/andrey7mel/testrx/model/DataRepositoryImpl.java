@@ -15,6 +15,7 @@ import rx.schedulers.Schedulers;
 public class DataRepositoryImpl implements DataRepository {
 
     private final Observable.Transformer schedulersTransformer;
+
     private ApiInterface apiInterface = ApiModule.getApiInterface();
 
 

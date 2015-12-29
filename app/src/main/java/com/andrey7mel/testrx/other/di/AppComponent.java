@@ -1,4 +1,4 @@
-package com.andrey7mel.testrx.other.dagger;
+package com.andrey7mel.testrx.other.di;
 
 import com.andrey7mel.testrx.model.DataRepositoryImpl;
 import com.andrey7mel.testrx.presenter.BasePresenter;
