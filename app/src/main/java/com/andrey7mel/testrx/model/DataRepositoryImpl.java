@@ -1,12 +1,14 @@
 package com.andrey7mel.testrx.model;
 
 import com.andrey7mel.testrx.model.api.ApiInterface;
-import com.andrey7mel.testrx.model.api.ApiModule;
 import com.andrey7mel.testrx.model.dto.BranchDTO;
 import com.andrey7mel.testrx.model.dto.ContributorDTO;
 import com.andrey7mel.testrx.model.dto.RepositoryDTO;
+import com.andrey7mel.testrx.other.App;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -16,14 +18,15 @@ public class DataRepositoryImpl implements DataRepository {
 
     private final Observable.Transformer schedulersTransformer;
 
-    private ApiInterface apiInterface = ApiModule.getApiInterface();
+    @Inject
+    protected ApiInterface apiInterface;
 
 
     public DataRepositoryImpl() {
         schedulersTransformer = o -> ((Observable) o).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io()) // TODO: remove when https://github.com/square/okhttp/issues/1592 is fixed
-        ;
+                .unsubscribeOn(Schedulers.io()); // TODO: remove when https://github.com/square/okhttp/issues/1592 is fixed
+        App.getComponent().inject(this);
     }
 
     @Override

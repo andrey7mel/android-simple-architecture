@@ -1,5 +1,7 @@
 package com.andrey7mel.testrx.model.api;
 
+import com.andrey7mel.testrx.model.dto.BranchDTO;
+import com.andrey7mel.testrx.model.dto.ContributorDTO;
 import com.andrey7mel.testrx.model.dto.RepositoryDTO;
 import com.andrey7mel.testrx.other.BaseTest;
 import com.squareup.okhttp.HttpUrl;
@@ -71,10 +73,10 @@ public class ApiInterfaceTest extends BaseTest {
 
         List<RepositoryDTO> actual = testSubscriber.getOnNextEvents().get(0);
 
-        assertEquals(actual.size(), 7);
-        assertEquals(actual.get(0).getName(), "Android-Rate");
-        assertEquals(actual.get(0).getFullName(), "andrey7mel/Android-Rate");
-        assertEquals(actual.get(0).getId(), 26314692);
+        assertEquals(7, actual.size());
+        assertEquals("Android-Rate", actual.get(0).getName());
+        assertEquals("andrey7mel/Android-Rate", actual.get(0).getFullName());
+        assertEquals(26314692, actual.get(0).getId());
     }
 
     @Test
@@ -88,13 +90,58 @@ public class ApiInterfaceTest extends BaseTest {
     }
 
 
-
+    @Test
     public void testGetContributors() {
+        TestSubscriber<List<ContributorDTO>> testSubscriber = new TestSubscriber<>();
+        apiInterface.getContributors(TEST_OWNER, TEST_REPO).subscribe(testSubscriber);
+
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertValueCount(1);
+
+        List<ContributorDTO> actual = testSubscriber.getOnNextEvents().get(0);
+
+        assertEquals(11, actual.size());
+        assertEquals("hotchemi", actual.get(0).getLogin());
+        assertEquals("User", actual.get(0).getType());
+        assertEquals(471318, actual.get(0).getId());
 
     }
 
-    public void testGetBranches() {
+    @Test
+    public void testGetContributorsIncorrect() throws Exception {
+        try {
+            apiInterface.getContributors("BBB", "AAA").subscribe();
+            fail();
+        } catch (Exception expected) {
+            assertEquals("HTTP 404 OK", expected.getMessage());
+        }
+    }
 
+
+    @Test
+    public void testGetBranches() {
+        TestSubscriber<List<BranchDTO>> testSubscriber = new TestSubscriber<>();
+        apiInterface.getBranches(TEST_OWNER, TEST_REPO).subscribe(testSubscriber);
+
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertValueCount(1);
+
+        List<BranchDTO> actual = testSubscriber.getOnNextEvents().get(0);
+
+        assertEquals(3, actual.size());
+        assertEquals("QuickStart", actual.get(0).getName());
+        assertEquals("94870e23f1cfafe7201bf82985b61188f650b245", actual.get(0).getCommit().getSha());
+
+    }
+
+    @Test
+    public void testGetBranchesIncorrect() throws Exception {
+        try {
+            apiInterface.getContributors("A", "B").subscribe();
+            fail();
+        } catch (Exception expected) {
+            assertEquals("HTTP 404 OK", expected.getMessage());
+        }
     }
 
     @After
