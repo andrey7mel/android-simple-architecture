@@ -5,14 +5,15 @@ import com.andrey7mel.testrx.model.dto.BranchDTO;
 import com.andrey7mel.testrx.model.dto.ContributorDTO;
 import com.andrey7mel.testrx.model.dto.RepositoryDTO;
 import com.andrey7mel.testrx.other.App;
+import com.andrey7mel.testrx.other.Const;
 
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.Scheduler;
 
 public class DataRepositoryImpl implements DataRepository {
 
@@ -21,11 +22,18 @@ public class DataRepositoryImpl implements DataRepository {
     @Inject
     protected ApiInterface apiInterface;
 
+    @Inject
+    @Named(Const.UI_THREAD)
+    Scheduler uiThread;
+
+    @Inject
+    @Named(Const.IO_THREAD)
+    Scheduler ioThread;
 
     public DataRepositoryImpl() {
-        schedulersTransformer = o -> ((Observable) o).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io()); // TODO: remove when https://github.com/square/okhttp/issues/1592 is fixed
+        schedulersTransformer = o -> ((Observable) o).subscribeOn(ioThread)
+                .observeOn(uiThread)
+                .unsubscribeOn(ioThread); // TODO: remove when https://github.com/square/okhttp/issues/1592 is fixed
         App.getComponent().inject(this);
     }
 

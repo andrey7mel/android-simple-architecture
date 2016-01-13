@@ -1,12 +1,15 @@
 package com.andrey7mel.testrx.other.di;
 
+import com.andrey7mel.testrx.model.DataRepositoryImplTest;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ModelModule.class, PresenterModule.class})
+@Component(modules = {ModelTestModule.class, PresenterTestModule.class})
 public interface TestComponent extends AppComponent {
 
 
+    void inject(DataRepositoryImplTest dataRepositoryImplTest);
 }

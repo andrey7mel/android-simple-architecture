@@ -9,22 +9,19 @@ import java.io.InputStream;
 
 public class TestUtils {
 
+    private Gson gson = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+
     public void log(String log) {
         System.out.println(log);
     }
 
+    public Gson getGson() {
+        return gson;
+    }
+
     public <T> T readJson(String fileName, Class<T> inClass) {
-        try {
-            InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
-            int size = stream.available();
-            byte[] buffer = new byte[size];
-            int result = stream.read(buffer);
-            Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
-            return gson.fromJson(new String(buffer, "utf8"), inClass);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return gson.fromJson(readString(fileName), inClass);
     }
 
     public String readString(String fileName) {

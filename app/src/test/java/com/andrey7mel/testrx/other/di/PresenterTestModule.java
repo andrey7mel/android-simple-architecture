@@ -9,6 +9,8 @@ import dagger.Module;
 import dagger.Provides;
 import rx.subscriptions.CompositeSubscription;
 
+import static org.mockito.Mockito.spy;
+
 @Module
 
 public class PresenterTestModule {
@@ -16,12 +18,12 @@ public class PresenterTestModule {
     @Provides
     @Singleton
     DataRepository provideDataRepository() {
-        return new DataRepositoryImpl();
+        return spy(new DataRepositoryImpl());
     }
 
     @Provides
     CompositeSubscription provideCompositeSubscription() {
-        return new CompositeSubscription();
+        return spy(new CompositeSubscription());
     }
 
 }

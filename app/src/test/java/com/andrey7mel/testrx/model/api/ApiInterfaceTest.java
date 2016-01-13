@@ -4,6 +4,7 @@ import com.andrey7mel.testrx.model.dto.BranchDTO;
 import com.andrey7mel.testrx.model.dto.ContributorDTO;
 import com.andrey7mel.testrx.model.dto.RepositoryDTO;
 import com.andrey7mel.testrx.other.BaseTest;
+import com.andrey7mel.testrx.other.TestConst;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
@@ -23,8 +24,7 @@ import rx.observers.TestSubscriber;
 
 public class ApiInterfaceTest extends BaseTest {
 
-    private final String TEST_OWNER = "TEST_OWNER";
-    private final String TEST_REPO = "TEST_REPO";
+
     MockWebServer server;
     ApiInterface apiInterface;
 
@@ -37,13 +37,13 @@ public class ApiInterfaceTest extends BaseTest {
             @Override
             public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
 
-                if (request.getPath().equals("/users/" + TEST_OWNER + "/repos")) {
+                if (request.getPath().equals("/users/" + TestConst.TEST_OWNER + "/repos")) {
                     return new MockResponse().setResponseCode(200)
                             .setBody(testUtils.readString("json/repos"));
-                } else if (request.getPath().equals("/repos/" + TEST_OWNER + "/" + TEST_REPO + "/branches")) {
+                } else if (request.getPath().equals("/repos/" + TestConst.TEST_OWNER + "/" + TestConst.TEST_REPO + "/branches")) {
                     return new MockResponse().setResponseCode(200)
                             .setBody(testUtils.readString("json/branches"));
-                } else if (request.getPath().equals("/repos/" + TEST_OWNER + "/" + TEST_REPO + "/contributors")) {
+                } else if (request.getPath().equals("/repos/" + TestConst.TEST_OWNER + "/" + TestConst.TEST_REPO + "/contributors")) {
                     return new MockResponse().setResponseCode(200)
                             .setBody(testUtils.readString("json/contributors"));
                 }
@@ -66,7 +66,7 @@ public class ApiInterfaceTest extends BaseTest {
     public void testGetRepositories() throws Exception {
 
         TestSubscriber<List<RepositoryDTO>> testSubscriber = new TestSubscriber<>();
-        apiInterface.getRepositories(TEST_OWNER).subscribe(testSubscriber);
+        apiInterface.getRepositories(TestConst.TEST_OWNER).subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
@@ -93,7 +93,7 @@ public class ApiInterfaceTest extends BaseTest {
     @Test
     public void testGetContributors() {
         TestSubscriber<List<ContributorDTO>> testSubscriber = new TestSubscriber<>();
-        apiInterface.getContributors(TEST_OWNER, TEST_REPO).subscribe(testSubscriber);
+        apiInterface.getContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
@@ -121,7 +121,7 @@ public class ApiInterfaceTest extends BaseTest {
     @Test
     public void testGetBranches() {
         TestSubscriber<List<BranchDTO>> testSubscriber = new TestSubscriber<>();
-        apiInterface.getBranches(TEST_OWNER, TEST_REPO).subscribe(testSubscriber);
+        apiInterface.getBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
