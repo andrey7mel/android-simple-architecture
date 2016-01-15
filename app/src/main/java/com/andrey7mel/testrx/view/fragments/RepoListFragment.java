@@ -14,7 +14,7 @@ import android.widget.EditText;
 import com.andrey7mel.testrx.R;
 import com.andrey7mel.testrx.presenter.BasePresenter;
 import com.andrey7mel.testrx.presenter.RepoListPresenter;
-import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
+import com.andrey7mel.testrx.presenter.vo.Repository;
 import com.andrey7mel.testrx.view.ActivityCallback;
 import com.andrey7mel.testrx.view.adapters.RepoListAdapterNew;
 
@@ -79,13 +79,13 @@ public class RepoListFragment extends BaseFragment implements IRepoListView {
     }
 
     @Override
-    public void setRepoList(List<RepositoryVO> repoList) {
+    public void setRepoList(List<Repository> repoList) {
         adapter.setRepoList(repoList);
     }
 
     @Override
-    public void startRepoInfoFragment(RepositoryVO repositoryVO) {
-        ((ActivityCallback) getActivity()).startRepoInfoFragment(repositoryVO);
+    public void startRepoInfoFragment(Repository repository) {
+        ((ActivityCallback) getActivity()).startRepoInfoFragment(repository);
     }
 
     @Override

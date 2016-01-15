@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.andrey7mel.testrx.other.App;
 import com.andrey7mel.testrx.presenter.mappers.UserReposMapper;
-import com.andrey7mel.testrx.presenter.vo.RepositoryVO;
+import com.andrey7mel.testrx.presenter.vo.Repository;
 import com.andrey7mel.testrx.view.fragments.IRepoListView;
 
 import java.util.ArrayList;
@@ -18,11 +18,14 @@ import rx.Subscription;
 
 public class RepoListPresenter extends BasePresenter {
 
-    private static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
+    protected static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
+
     @Inject
     protected UserReposMapper userReposMapper;
+
     private IRepoListView view;
-    private List<RepositoryVO> repoList;
+
+    private List<Repository> repoList;
 
     public RepoListPresenter(IRepoListView view) {
         this.view = view;
@@ -35,7 +38,7 @@ public class RepoListPresenter extends BasePresenter {
 
         Subscription subscription = dataRepository.getRepoList(name)
                 .map(userReposMapper)
-                .subscribe(new Observer<List<RepositoryVO>>() {
+                .subscribe(new Observer<List<Repository>>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -46,7 +49,7 @@ public class RepoListPresenter extends BasePresenter {
                     }
 
                     @Override
-                    public void onNext(List<RepositoryVO> list) {
+                    public void onNext(List<Repository> list) {
                         if (list != null && !list.isEmpty()) {
                             repoList = list;
                             view.setRepoList(list);
@@ -61,7 +64,7 @@ public class RepoListPresenter extends BasePresenter {
     public void onCreate(Bundle savedInstanceState) {
 
         if (savedInstanceState != null) {
-            repoList = (List<RepositoryVO>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
+            repoList = (List<Repository>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
         }
 
         if (repoList == null) {
@@ -76,8 +79,8 @@ public class RepoListPresenter extends BasePresenter {
             outState.putSerializable(BUNDLE_REPO_LIST_KEY, new ArrayList<>(repoList));
     }
 
-    public void clickRepo(RepositoryVO repositoryVO) {
-        view.startRepoInfoFragment(repositoryVO);
+    public void clickRepo(Repository repository) {
+        view.startRepoInfoFragment(repository);
     }
 
 }

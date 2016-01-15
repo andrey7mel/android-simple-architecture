@@ -23,7 +23,7 @@ public class PresenterTestModule {
 
     @Provides
     CompositeSubscription provideCompositeSubscription() {
-        return spy(new CompositeSubscription());
+        return new CompositeSubscription();
     }
 
 }

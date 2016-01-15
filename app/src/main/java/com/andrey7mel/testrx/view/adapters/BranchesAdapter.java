@@ -1,12 +1,12 @@
 package com.andrey7mel.testrx.view.adapters;
 
-import com.andrey7mel.testrx.presenter.vo.BranchVO;
+import com.andrey7mel.testrx.presenter.vo.Branch;
 
 import java.util.List;
 
-public class BranchesAdapter extends BaseAdapter<BranchVO> {
+public class BranchesAdapter extends BaseAdapter<Branch> {
 
-    public BranchesAdapter(List<BranchVO> list) {
+    public BranchesAdapter(List<Branch> list) {
         super(list);
     }
 

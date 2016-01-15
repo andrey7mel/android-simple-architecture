@@ -27,7 +27,7 @@ public class BaseTest extends Assert {
 
 
     @Before
-    public void prepare() {
+    public void setUp() throws Exception {
         component = (TestComponent) App.getComponent();
     }
 

@@ -30,15 +30,16 @@ public class DataRepositoryImplTest extends BaseTest {
     DataRepository dataRepository;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         component.inject(this);
     }
 
     @Test
     public void testGetRepoList() {
-        RepositoryDTO[] branchArray = testUtils.getGson().fromJson(testUtils.readString("json/repos"), RepositoryDTO[].class);
+        RepositoryDTO[] repositoryDTOs = testUtils.getGson().fromJson(testUtils.readString("json/repos"), RepositoryDTO[].class);
 
-        when(apiInterface.getRepositories(TestConst.TEST_OWNER)).thenReturn(Observable.just(Arrays.asList(branchArray)));
+        when(apiInterface.getRepositories(TestConst.TEST_OWNER)).thenReturn(Observable.just(Arrays.asList(repositoryDTOs)));
 
         TestSubscriber<List<RepositoryDTO>> testSubscriber = new TestSubscriber<>();
         apiInterface.getRepositories(TestConst.TEST_OWNER).subscribe(testSubscriber);
@@ -57,9 +58,9 @@ public class DataRepositoryImplTest extends BaseTest {
     @Test
     public void testGetRepoBranches() {
 
-        BranchDTO[] branchArray = testUtils.getGson().fromJson(testUtils.readString("json/branches"), BranchDTO[].class);
+        BranchDTO[] branchDTOs = testUtils.getGson().fromJson(testUtils.readString("json/branches"), BranchDTO[].class);
 
-        when(apiInterface.getBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO)).thenReturn(Observable.just(Arrays.asList(branchArray)));
+        when(apiInterface.getBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO)).thenReturn(Observable.just(Arrays.asList(branchDTOs)));
 
         TestSubscriber<List<BranchDTO>> testSubscriber = new TestSubscriber<>();
         dataRepository.getRepoBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
@@ -77,9 +78,9 @@ public class DataRepositoryImplTest extends BaseTest {
 
     @Test
     public void testGetRepoContributors() {
-        ContributorDTO[] branchArray = testUtils.getGson().fromJson(testUtils.readString("json/contributors"), ContributorDTO[].class);
+        ContributorDTO[] contributorDTOs = testUtils.getGson().fromJson(testUtils.readString("json/contributors"), ContributorDTO[].class);
 
-        when(apiInterface.getContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO)).thenReturn(Observable.just(Arrays.asList(branchArray)));
+        when(apiInterface.getContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO)).thenReturn(Observable.just(Arrays.asList(contributorDTOs)));
 
 
         TestSubscriber<List<ContributorDTO>> testSubscriber = new TestSubscriber<>();
