@@ -30,12 +30,16 @@ public class BaseForPresenterTest extends BaseTest {
     protected List<RepositoryDTO> repositoryDTOs;
     protected List<ContributorDTO> contributorDTOs;
     protected List<BranchDTO> branchDTOs;
+
     @Inject
     protected RepoBranchesMapper branchesMapper;
+
     @Inject
     protected RepoContributorsMapper contributorsMapper;
+
     @Inject
     protected UserReposMapper userReposMapper;
+
     @Inject
     DataRepository dataRepository;
 
