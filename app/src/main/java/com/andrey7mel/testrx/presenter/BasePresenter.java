@@ -8,8 +8,6 @@ import javax.inject.Inject;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-//TODO Тесты проверять отписку
-
 public abstract class BasePresenter implements IPresenter {
 
     @Inject

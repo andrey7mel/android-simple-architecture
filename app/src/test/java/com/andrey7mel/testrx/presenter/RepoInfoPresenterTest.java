@@ -11,8 +11,10 @@ import org.junit.Test;
 
 import rx.Observable;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -29,7 +31,7 @@ public class RepoInfoPresenterTest extends BaseForPresenterTest {
 
         repository = new Repository(TestConst.TEST_REPO, TestConst.TEST_OWNER);
         mockView = mock(IRepoInfoView.class);
-        repoInfoPresenter = new RepoInfoPresenter(mockView, repository);
+        repoInfoPresenter = spy(new RepoInfoPresenter(mockView, repository));
 
         doAnswer(invocation -> Observable.just(branchDTOs))
                 .when(dataRepository)
@@ -50,6 +52,16 @@ public class RepoInfoPresenterTest extends BaseForPresenterTest {
         verify(mockView).showContributors(contributorList);
     }
 
+    @Test
+    public void testSubscribe() {
+        repoInfoPresenter.onCreate(null);
+
+        verify(repoInfoPresenter, times(2)).addSubscription(any());
+
+        repoInfoPresenter.onStop();
+        assertTrue(repoInfoPresenter.compositeSubscription.isUnsubscribed());
+
+    }
 
     @Test
     public void testSaveState() {
@@ -59,7 +71,7 @@ public class RepoInfoPresenterTest extends BaseForPresenterTest {
         repoInfoPresenter.onSaveInstanceState(bundle);
         repoInfoPresenter.onStop();
 
-        repoInfoPresenter = new RepoInfoPresenter(mockView, repository);
+//        repoInfoPresenter = new RepoInfoPresenter(mockView, repository);
         repoInfoPresenter.onCreate(bundle);
 
         verify(mockView, times(2)).showBranches(branchList);
