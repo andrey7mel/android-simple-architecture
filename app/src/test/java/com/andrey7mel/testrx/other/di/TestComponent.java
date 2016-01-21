@@ -1,11 +1,11 @@
 package com.andrey7mel.testrx.other.di;
 
-import com.andrey7mel.testrx.model.DataRepositoryImplTest;
+import com.andrey7mel.testrx.model.ModelImplTest;
 import com.andrey7mel.testrx.presenter.BaseForPresenterTest;
 import com.andrey7mel.testrx.presenter.RepoInfoPresenterTest;
 import com.andrey7mel.testrx.presenter.mappers.RepoBranchesMapperTest;
 import com.andrey7mel.testrx.presenter.mappers.RepoContributorsMapperTest;
-import com.andrey7mel.testrx.presenter.mappers.UserReposMapperTest;
+import com.andrey7mel.testrx.presenter.mappers.RepoListMapperTest;
 
 import javax.inject.Singleton;
 
@@ -16,7 +16,7 @@ import dagger.Component;
 public interface TestComponent extends AppComponent {
 
 
-    void inject(DataRepositoryImplTest dataRepositoryImplTest);
+    void inject(ModelImplTest dataRepositoryImplTest);
 
     void inject(RepoInfoPresenterTest repoInfoPresenterTest);
 
@@ -26,5 +26,5 @@ public interface TestComponent extends AppComponent {
 
     void inject(RepoContributorsMapperTest repoContributorsMapperTest);
 
-    void inject(UserReposMapperTest userReposMapperTest);
+    void inject(RepoListMapperTest userReposMapperTest);
 }

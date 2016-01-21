@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.andrey7mel.testrx.other.TestConst;
 import com.andrey7mel.testrx.presenter.vo.Repository;
-import com.andrey7mel.testrx.view.fragments.IRepoInfoView;
+import com.andrey7mel.testrx.view.fragments.RepoInfoView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 public class RepoInfoPresenterTest extends BaseForPresenterTest {
 
-    private IRepoInfoView mockView;
+    private RepoInfoView mockView;
     private RepoInfoPresenter repoInfoPresenter;
     private Repository repository;
 
@@ -30,15 +30,15 @@ public class RepoInfoPresenterTest extends BaseForPresenterTest {
         super.setUp();
 
         repository = new Repository(TestConst.TEST_REPO, TestConst.TEST_OWNER);
-        mockView = mock(IRepoInfoView.class);
+        mockView = mock(RepoInfoView.class);
         repoInfoPresenter = spy(new RepoInfoPresenter(mockView, repository));
 
         doAnswer(invocation -> Observable.just(branchDTOs))
-                .when(dataRepository)
+                .when(model)
                 .getRepoBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO);
 
         doAnswer(invocation -> Observable.just(contributorDTOs))
-                .when(dataRepository)
+                .when(model)
                 .getRepoContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO);
     }
 
@@ -77,7 +77,7 @@ public class RepoInfoPresenterTest extends BaseForPresenterTest {
         verify(mockView, times(2)).showBranches(branchList);
         verify(mockView, times(2)).showContributors(contributorList);
 
-        verify(dataRepository).getRepoContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO);
-        verify(dataRepository).getRepoBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO);
+        verify(model).getRepoContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO);
+        verify(model).getRepoBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO);
     }
 }

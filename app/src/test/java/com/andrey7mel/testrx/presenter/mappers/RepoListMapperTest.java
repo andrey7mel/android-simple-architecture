@@ -10,10 +10,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class UserReposMapperTest extends BaseTest {
+public class RepoListMapperTest extends BaseTest {
 
     @Inject
-    protected UserReposMapper userReposMapper;
+    protected RepoListMapper repoListMapper;
 
     @Before
     public void setUp() throws Exception {
@@ -23,7 +23,7 @@ public class UserReposMapperTest extends BaseTest {
 
     @Test
     public void testCall() throws Exception {
-        List<Repository> repositoryList = userReposMapper.call(repositoryDTOs);
+        List<Repository> repositoryList = repoListMapper.call(repositoryDTOs);
 
         assertEquals(7, repositoryList.size());
 

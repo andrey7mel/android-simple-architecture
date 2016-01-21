@@ -15,7 +15,7 @@ import javax.inject.Named;
 import rx.Observable;
 import rx.Scheduler;
 
-public class DataRepositoryImpl implements DataRepository {
+public class ModelImpl implements Model {
 
     private final Observable.Transformer schedulersTransformer;
 
@@ -30,7 +30,7 @@ public class DataRepositoryImpl implements DataRepository {
     @Named(Const.IO_THREAD)
     Scheduler ioThread;
 
-    public DataRepositoryImpl() {
+    public ModelImpl() {
         schedulersTransformer = o -> ((Observable) o).subscribeOn(ioThread)
                 .observeOn(uiThread)
                 .unsubscribeOn(ioThread); // TODO: remove when https://github.com/square/okhttp/issues/1592 is fixed

@@ -1,7 +1,7 @@
 package com.andrey7mel.testrx.other.di;
 
-import com.andrey7mel.testrx.model.DataRepository;
-import com.andrey7mel.testrx.model.DataRepositoryImpl;
+import com.andrey7mel.testrx.model.Model;
+import com.andrey7mel.testrx.model.ModelImpl;
 
 import javax.inject.Singleton;
 
@@ -15,8 +15,8 @@ public class PresenterModule {
 
     @Provides
     @Singleton
-    DataRepository provideDataRepository() {
-        return new DataRepositoryImpl();
+    Model provideDataRepository() {
+        return new ModelImpl();
     }
 
     @Provides

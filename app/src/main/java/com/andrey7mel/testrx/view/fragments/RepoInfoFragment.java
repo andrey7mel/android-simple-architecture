@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
+public class RepoInfoFragment extends BaseFragment implements RepoInfoView {
 
     public static final String BUNDLE_REPO_KEY = "BUNDLE_REPO_KEY";
     @Bind(R.id.repo_info)
@@ -84,8 +84,8 @@ public class RepoInfoFragment extends BaseFragment implements IRepoInfoView {
 
 
     @Override
-    public void showError(Throwable e) {
-        makeToast(e.getMessage());
+    public void showError(String error) {
+        makeToast(error);
     }
 
 

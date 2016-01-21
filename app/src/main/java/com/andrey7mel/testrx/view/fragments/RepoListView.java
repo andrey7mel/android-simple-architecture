@@ -4,13 +4,13 @@ import com.andrey7mel.testrx.presenter.vo.Repository;
 
 import java.util.List;
 
-public interface IRepoListView extends IView {
+public interface RepoListView extends View {
 
-    void setRepoList(List<Repository> vo);
+    void showRepoList(List<Repository> vo);
 
     void startRepoInfoFragment(Repository vo);
 
     void showEmptyList();
 
-    String getInputName();
+    String getUserName();
 }

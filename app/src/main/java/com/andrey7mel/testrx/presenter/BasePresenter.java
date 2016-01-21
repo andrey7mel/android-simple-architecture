@@ -1,6 +1,6 @@
 package com.andrey7mel.testrx.presenter;
 
-import com.andrey7mel.testrx.model.DataRepository;
+import com.andrey7mel.testrx.model.Model;
 import com.andrey7mel.testrx.other.App;
 
 import javax.inject.Inject;
@@ -8,10 +8,10 @@ import javax.inject.Inject;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-public abstract class BasePresenter implements IPresenter {
+public abstract class BasePresenter implements Presenter {
 
     @Inject
-    protected DataRepository dataRepository;
+    protected Model model;
 
     @Inject
     protected CompositeSubscription compositeSubscription;

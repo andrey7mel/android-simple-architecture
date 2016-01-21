@@ -20,14 +20,14 @@ import rx.observers.TestSubscriber;
 
 import static org.mockito.Mockito.when;
 
-public class DataRepositoryImplTest extends BaseTest {
+public class ModelImplTest extends BaseTest {
 
 
     @Inject
     ApiInterface apiInterface;
 
     @Inject
-    DataRepository dataRepository;
+    Model model;
 
     @Before
     public void setUp() throws Exception {
@@ -63,7 +63,7 @@ public class DataRepositoryImplTest extends BaseTest {
         when(apiInterface.getBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO)).thenReturn(Observable.just(Arrays.asList(branchDTOs)));
 
         TestSubscriber<List<BranchDTO>> testSubscriber = new TestSubscriber<>();
-        dataRepository.getRepoBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
+        model.getRepoBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);

@@ -3,7 +3,7 @@ package com.andrey7mel.testrx.presenter;
 import android.os.Bundle;
 
 import com.andrey7mel.testrx.other.TestConst;
-import com.andrey7mel.testrx.view.fragments.IRepoListView;
+import com.andrey7mel.testrx.view.fragments.RepoListView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +17,10 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+//TODO Fix tests without autoload
 public class RepoListPresenterTest extends BaseForPresenterTest {
 
-    private IRepoListView mockView;
+    private RepoListView mockView;
     private RepoListPresenter repoListPresenter;
 
 
@@ -27,16 +28,16 @@ public class RepoListPresenterTest extends BaseForPresenterTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        mockView = mock(IRepoListView.class);
+        mockView = mock(RepoListView.class);
         repoListPresenter = spy(new RepoListPresenter(mockView));
 
         doAnswer(invocation -> Observable.just(repositoryDTOs))
-                .when(dataRepository)
+                .when(model)
                 .getRepoList(TestConst.TEST_OWNER);
 
         doAnswer(invocation -> TestConst.TEST_OWNER)
                 .when(mockView)
-                .getInputName();
+                .getUserName();
     }
 
 
@@ -45,12 +46,13 @@ public class RepoListPresenterTest extends BaseForPresenterTest {
         repoListPresenter.onCreate(null);
         repoListPresenter.onStop();
 
-        verify(mockView).setRepoList(repoList);
+        verify(mockView, times(0)).showRepoList(repoList);
     }
 
     @Test
     public void testSubscribe() {
         repoListPresenter.onCreate(null);
+        repoListPresenter.onSearchButtonClick();
 
         verify(repoListPresenter).addSubscription(any());
 
@@ -62,6 +64,7 @@ public class RepoListPresenterTest extends BaseForPresenterTest {
     @Test
     public void testSaveState() {
         repoListPresenter.onCreate(null);
+        repoListPresenter.onSearchButtonClick();
 
         Bundle bundle = Bundle.EMPTY;
         repoListPresenter.onSaveInstanceState(bundle);
@@ -69,8 +72,8 @@ public class RepoListPresenterTest extends BaseForPresenterTest {
 
         repoListPresenter.onCreate(bundle);
 
-        verify(mockView, times(2)).setRepoList(repoList);
+        verify(mockView).showRepoList(repoList);
 
-        verify(dataRepository).getRepoList(TestConst.TEST_OWNER);
+        verify(model).getRepoList(TestConst.TEST_OWNER);
     }
 }

@@ -10,10 +10,10 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.functions.Func1;
 
-public class UserReposMapper implements Func1<List<RepositoryDTO>, List<Repository>> {
+public class RepoListMapper implements Func1<List<RepositoryDTO>, List<Repository>> {
 
     @Inject
-    public UserReposMapper() {
+    public RepoListMapper() {
 
     }
 

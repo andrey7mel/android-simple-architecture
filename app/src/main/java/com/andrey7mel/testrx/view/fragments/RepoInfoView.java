@@ -5,7 +5,7 @@ import com.andrey7mel.testrx.presenter.vo.Contributor;
 
 import java.util.List;
 
-public interface IRepoInfoView extends IView {
+public interface RepoInfoView extends View {
 
     void showContributors(List<Contributor> contributors);
 

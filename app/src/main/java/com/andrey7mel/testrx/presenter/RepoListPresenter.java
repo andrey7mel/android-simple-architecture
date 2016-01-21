@@ -3,10 +3,9 @@ package com.andrey7mel.testrx.presenter;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.andrey7mel.testrx.other.App;
-import com.andrey7mel.testrx.presenter.mappers.UserReposMapper;
+import com.andrey7mel.testrx.presenter.mappers.RepoListMapper;
 import com.andrey7mel.testrx.presenter.vo.Repository;
-import com.andrey7mel.testrx.view.fragments.IRepoListView;
+import com.andrey7mel.testrx.view.fragments.RepoListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,23 +20,22 @@ public class RepoListPresenter extends BasePresenter {
     protected static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
 
     @Inject
-    protected UserReposMapper userReposMapper;
+    protected RepoListMapper repoListMapper;
 
-    private IRepoListView view;
+    private RepoListView view;
 
     private List<Repository> repoList;
 
-    public RepoListPresenter(IRepoListView view) {
+    public RepoListPresenter(RepoListView view) {
         this.view = view;
-        App.getComponent().inject(this);
     }
 
-    public void loadData() {
-        String name = view.getInputName();
+    public void onSearchButtonClick() {
+        String name = view.getUserName();
         if (TextUtils.isEmpty(name)) return;
 
-        Subscription subscription = dataRepository.getRepoList(name)
-                .map(userReposMapper)
+        Subscription subscription = model.getRepoList(name)
+                .map(repoListMapper)
                 .subscribe(new Observer<List<Repository>>() {
                     @Override
                     public void onCompleted() {
@@ -45,14 +43,14 @@ public class RepoListPresenter extends BasePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        view.showError(e);
+                        view.showError(e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<Repository> list) {
                         if (list != null && !list.isEmpty()) {
                             repoList = list;
-                            view.setRepoList(list);
+                            view.showRepoList(list);
                         } else {
                             view.showEmptyList();
                         }
@@ -62,21 +60,24 @@ public class RepoListPresenter extends BasePresenter {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
         if (savedInstanceState != null) {
             repoList = (List<Repository>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
+
+            if (isRepoListNotEmpty()) {
+                view.showRepoList(repoList);
+            }
         }
 
-        if (repoList == null) {
-            loadData();
-        } else {
-            view.setRepoList(repoList);
-        }
+    }
+
+    private boolean isRepoListNotEmpty() {
+        return (repoList != null && !repoList.isEmpty());
     }
 
     public void onSaveInstanceState(Bundle outState) {
-        if (repoList != null)
+        if (isRepoListNotEmpty()) {
             outState.putSerializable(BUNDLE_REPO_LIST_KEY, new ArrayList<>(repoList));
+        }
     }
 
     public void clickRepo(Repository repository) {

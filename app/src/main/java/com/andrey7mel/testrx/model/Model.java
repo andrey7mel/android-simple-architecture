@@ -8,7 +8,7 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface DataRepository {
+public interface Model {
 
     Observable<List<RepositoryDTO>> getRepoList(String name);
 
